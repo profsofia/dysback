@@ -1,31 +1,29 @@
-// C:\Users\sofia\OneDrive\Escritorio\dys-fullstack.v1\backend\functions\index.js
+// C:\Users\sofia\OneDrive\Escritorio\dys-fullstack.v1\backend\api\index.js
 
 import express from 'express';
 import { v2 as cloudinary } from 'cloudinary';
 import cors from 'cors';
-import functions from 'firebase-functions'; // ¡IMPORTANTE! Importar firebase-functions
 
-// Eliminar: import dotenv from 'dotenv';
-// Eliminar: dotenv.config();
+// ELIMINAR: import dotenv from 'dotenv';
+// ELIMINAR: dotenv.config(); // Vercel maneja las variables de entorno en su plataforma
 
 const app = express();
-// Eliminar: const PORT = process.env.PORT || 5000;
+// ELIMINAR: const PORT = process.env.PORT || 5000;
 
-// Configurar Cloudinary usando las variables de entorno de Firebase Functions
+// Configurar Cloudinary usando las variables de entorno de Vercel
 cloudinary.config({
-  cloud_name: functions.config().cloudinary.cloud_name, // Acceso seguro a las variables de Firebase
-  api_key: functions.config().cloudinary.api_key,
-  api_secret: functions.config().cloudinary.api_secret,
+  cloud_name: process.env.CLOUD_NAME, // Vercel inyecta estas variables directamente en process.env
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 // Middlewares
-// En producción, es recomendable restringir los orígenes de CORS
 app.use(cors());
 app.use(express.json());
 
 // Endpoint para obtener imágenes de una carpeta específica de Cloudinary
 app.get('/api/images', async (req, res) => {
-  const { cursor, folder } = req.query; // Para paginación y folder
+  const { cursor, folder } = req.query;
 
   try {
     const result = await cloudinary.api.resources({
@@ -33,13 +31,13 @@ app.get('/api/images', async (req, res) => {
       prefix: folder || 'dysconstructora',
       max_results: 8,
       next_cursor: cursor,
-      context: true, // <-- ¡AÑADIDO! Para obtener los metadatos de contexto
+      context: true, // Asegura que se recuperen los metadatos personalizados
     });
 
     const images = result.resources.map(resource => ({
       id: resource.public_id,
       src: resource.secure_url,
-      // Recuperar el alt del contexto si existe, si no, usar filename, si no, el default.
+      // Accede a la descripción del contexto si existe, si no, usa el filename o un fallback
       alt: resource.context?.custom?.description || resource.filename || 'Imagen de proyecto',
     }));
 
@@ -55,7 +53,7 @@ app.get('/api/images', async (req, res) => {
   }
 });
 
-// Eliminar: app.listen(PORT, ...)
-// ¡IMPORTANTE! Exporta tu app Express como una función HTTP de Firebase.
-// Esto la hace accesible en la URL de Firebase Functions.
-export const api = functions.https.onRequest(app);
+// ELIMINAR: app.listen(PORT, () => { console.log(`Server running on port ${PORT}`); });
+
+// ¡IMPORTANTE! Exporta la aplicación Express para Vercel
+export default app;
