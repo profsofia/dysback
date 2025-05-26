@@ -31,3 +31,4 @@ firebase-debug.log
 .firebaserc # A veces se ignora, a veces no. Si quieres que se suba la configuración de tu proyecto, no lo ignores. Por ahora, lo ignoraremos.
 firebase-debug.log
 firestore-debug.log
+.vercel
