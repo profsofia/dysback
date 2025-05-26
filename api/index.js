@@ -4,6 +4,8 @@ import express from 'express';
 import { v2 as cloudinary } from 'cloudinary';
 import cors from 'cors';
 
+
+
 // ELIMINAR: import dotenv from 'dotenv';
 // ELIMINAR: dotenv.config(); // Vercel maneja las variables de entorno en su plataforma
 
