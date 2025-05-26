@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules/
+# CRUCIAL para ignorar la carpeta de dependencias
+
+# Local .env files (CRUCIAL para no subir tus credenciales!)
+.env
+.env.*.local
+.env.local
+
+# Firebase-specific (para el despliegue a Firebase Functions)
+functions/node_modules/ # Las node_modules dentro de la carpeta functions
+functions/.runtimeconfig.json # Contiene credenciales localmente
+firebase-debug.log
+*.firebase.log
