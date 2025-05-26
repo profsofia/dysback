@@ -20,7 +20,10 @@ cloudinary.config({
 });
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['https://dysconstructora.com']
+}));
+
 app.use(express.json());
 
 // Endpoint para obtener imágenes de una carpeta específica de Cloudinary
