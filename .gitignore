@@ -8,16 +8,21 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Dependencies
-node_modules/
-# CRUCIAL para ignorar la carpeta de dependencias
+node_modules/ # CRUCIAL para ignorar la carpeta de dependencias
+functions/node_modules/ # Las node_modules dentro de la carpeta functions
 
 # Local .env files (CRUCIAL para no subir tus credenciales!)
 .env
 .env.*.local
 .env.local
+functions/.env # Por si lo creas dentro de functions
+functions/.env.local # Por si lo creas dentro de functions
 
-# Firebase-specific (para el despliegue a Firebase Functions)
-functions/node_modules/ # Las node_modules dentro de la carpeta functions
-functions/.runtimeconfig.json # Contiene credenciales localmente
+# Firebase-specific files
+functions/.runtimeconfig.json # Contiene credenciales localmente (¡muy importante ignorar!)
 firebase-debug.log
 *.firebase.log
+.firebase/
+.firebaserc # A veces se ignora, a veces no. Si quieres que se suba la configuración de tu proyecto, no lo ignores. Por ahora, lo ignoraremos.
+firebase-debug.log
+firestore-debug.log
